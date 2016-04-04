@@ -1,14 +1,17 @@
 require 'account.rb'
 
 describe Account do
-  subject(:account) {described_class.new}
+  let(:statement) {double:statement, add_transaction: nil, print: nil}
+  let(:statement_class) {double(:statement, new: statement)}
+  subject(:account) {described_class.new(statement: statement_class)}
+
 
   it "starts with a balance of 0" do
     expect(account.balance).to eq 0
   end
 
   describe "balance > 0" do
-    before(:each) do 
+    before(:each) do
       account.deposit(100)
     end
 
@@ -24,5 +27,6 @@ describe Account do
     it "doesn't deduct more than available in the balance" do
       expect{account.withdraw(110)}.to raise_error "You can only withdraw #{account.balance}."
     end
+
   end
 end

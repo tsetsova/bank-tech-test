@@ -1,4 +1,4 @@
-class Statements
+class Statement
 
   attr_reader :collection
 
@@ -6,20 +6,21 @@ class Statements
     @collection = [];
   end
 
-  def create_statement(balance:, deposit: nil, withdraw: nil)
-    params = binding.local_variables
-    statement = params.map { |p| [p, eval(p.to_s)] }.to_h
-    statement.store(:time, date_format)
-    @collection << statement
+  def add_transaction(balance:, deposit: nil, withdraw: nil)
+    @collection << { balance:  currency_format(balance),
+                     deposit:  currency_format(deposit),
+                     withdraw: currency_format(withdraw),
+                     time: date_format
+                    }
   end
 
   def print
-    lineWidth = 40
+    return "No statements available" if @collection.count == 0
     puts "date || credit || debit || balance"
     @collection.each do |statement|
       puts "#{statement[:time]} || #{statement[:deposit]} || #{statement[:withdraw]} || #{statement[:balance]} "
+    end
   end
- end
 
   private
 
