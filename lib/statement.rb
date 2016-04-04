@@ -18,7 +18,7 @@ class Statements
     puts "date || credit || debit || balance"
     @collection.each do |statement|
       puts "#{statement[:time]} || #{statement[:deposit]} || #{statement[:withdraw]} || #{statement[:balance]} "
-    end
+  end
  end
 
   private
